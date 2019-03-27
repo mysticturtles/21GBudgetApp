@@ -7,15 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Budget
+namespace Budget.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class year
+    public partial class user
     {
-        public int id { get; set; }
-        public int yearInt { get; set; }
-        public int active { get; set; }
+        public int userID { get; set; }
+        public string username { get; set; }
+        public string hashed_password { get; set; }
+        public string name { get; set; }
+        public Nullable<System.DateTime> pass_date { get; set; }
     }
 }

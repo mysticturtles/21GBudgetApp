@@ -122,12 +122,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Budget.Context.tt">
+    <Content Include="Models\Budget.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Budget.edmx</DependentUpon>
       <LastGenOutput>Budget.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Budget.tt">
+    <Content Include="Models\Budget.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Budget.edmx</DependentUpon>
       <LastGenOutput>Budget.cs</LastGenOutput>
@@ -163,11 +163,11 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <EntityDeploy Include="Budget.edmx">
+    <EntityDeploy Include="Models\Budget.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Budget.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Budget.edmx.diagram">
+    <Content Include="Models\Budget.edmx.diagram">
       <DependentUpon>Budget.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -204,23 +204,23 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Budget.Context.cs">
+    <Compile Include="Models\Budget.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Budget.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Budget.cs">
+    <Compile Include="Models\Budget.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Budget.tt</DependentUpon>
     </Compile>
-    <Compile Include="Budget.Designer.cs">
+    <Compile Include="Models\Budget.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Budget.edmx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\DateObjects.cs" />
-    <Compile Include="month.cs">
+    <Compile Include="Models\month.cs">
       <DependentUpon>Budget.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -229,16 +229,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="transaction_log.cs">
+    <Compile Include="Models\transaction_log.cs">
       <DependentUpon>Budget.tt</DependentUpon>
     </Compile>
-    <Compile Include="type.cs">
+    <Compile Include="Models\type.cs">
       <DependentUpon>Budget.tt</DependentUpon>
     </Compile>
-    <Compile Include="user.cs">
+    <Compile Include="Models\user.cs">
       <DependentUpon>Budget.tt</DependentUpon>
     </Compile>
-    <Compile Include="year.cs">
+    <Compile Include="Models\year.cs">
       <DependentUpon>Budget.tt</DependentUpon>
     </Compile>
   </ItemGroup>

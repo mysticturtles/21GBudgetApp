@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Budget
+namespace Budget.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class type
+    public partial class month
     {
-        public int typeID { get; set; }
-        public string type_mod { get; set; }
-        public string typeName { get; set; }
+        public int id { get; set; }
+        public string monthName { get; set; }
         public int active { get; set; }
+        public int month_int { get; set; }
     }
 }

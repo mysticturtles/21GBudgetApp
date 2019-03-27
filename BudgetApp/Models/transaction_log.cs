@@ -7,16 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Budget
+namespace Budget.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class month
+    public partial class transaction_log
     {
-        public int id { get; set; }
-        public string monthName { get; set; }
-        public int active { get; set; }
-        public int month_int { get; set; }
+        public int transaction_id { get; set; }
+        public int user_id { get; set; }
+        public string source { get; set; }
+        public decimal amount { get; set; }
+        public int type_id { get; set; }
+        public System.DateTime date { get; set; }
+        public string description { get; set; }
+        public Nullable<int> reoccuring { get; set; }
     }
 }

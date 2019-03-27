@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Budget
+namespace Budget.Models
 {
     using System;
     using System.Data.Entity;
