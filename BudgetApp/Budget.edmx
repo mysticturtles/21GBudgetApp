@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="budgetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="month">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="monthName" Type="varchar(max)" Nullable="false" />
+          <Property Name="active" Type="int" Nullable="false" />
+          <Property Name="month_int" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="transaction_log">
+          <Key>
+            <PropertyRef Name="transaction_id" />
+          </Key>
+          <Property Name="transaction_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="source" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="amount" Type="money" Nullable="false" />
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="reoccuring" Type="int" />
+        </EntityType>
+        <EntityType Name="types">
+          <Key>
+            <PropertyRef Name="typeID" />
+          </Key>
+          <Property Name="typeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_mod" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="typeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="active" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="hashed_password" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pass_date" Type="date" />
+        </EntityType>
+        <EntityType Name="year">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="yearInt" Type="int" Nullable="false" />
+          <Property Name="active" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="budgetModelStoreContainer">
+          <EntitySet Name="month" EntityType="Self.month" Schema="budget" store:Type="Tables" />
+          <EntitySet Name="transaction_log" EntityType="Self.transaction_log" Schema="budget" store:Type="Tables" />
+          <EntitySet Name="types" EntityType="Self.types" Schema="budget" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="budget" store:Type="Tables" />
+          <EntitySet Name="year" EntityType="Self.year" Schema="budget" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="budgetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="month">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="monthName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="active" Type="Int32" Nullable="false" />
+          <Property Name="month_int" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="transaction_log">
+          <Key>
+            <PropertyRef Name="transaction_id" />
+          </Key>
+          <Property Name="transaction_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="source" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="type_id" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="reoccuring" Type="Int32" />
+        </EntityType>
+        <EntityType Name="type">
+          <Key>
+            <PropertyRef Name="typeID" />
+          </Key>
+          <Property Name="typeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_mod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="typeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="active" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="hashed_password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass_date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="year">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="yearInt" Type="Int32" Nullable="false" />
+          <Property Name="active" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="budgetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="months" EntityType="Self.month" />
+          <EntitySet Name="transaction_log" EntityType="Self.transaction_log" />
+          <EntitySet Name="types" EntityType="Self.type" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="years" EntityType="Self.year" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="budgetModelStoreContainer" CdmEntityContainer="budgetEntities">
+          <EntitySetMapping Name="months">
+            <EntityTypeMapping TypeName="budgetModel.month">
+              <MappingFragment StoreEntitySet="month">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="monthName" ColumnName="monthName" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="month_int" ColumnName="month_int" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transaction_log">
+            <EntityTypeMapping TypeName="budgetModel.transaction_log">
+              <MappingFragment StoreEntitySet="transaction_log">
+                <ScalarProperty Name="transaction_id" ColumnName="transaction_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="source" ColumnName="source" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="reoccuring" ColumnName="reoccuring" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="types">
+            <EntityTypeMapping TypeName="budgetModel.type">
+              <MappingFragment StoreEntitySet="types">
+                <ScalarProperty Name="typeID" ColumnName="typeID" />
+                <ScalarProperty Name="type_mod" ColumnName="type_mod" />
+                <ScalarProperty Name="typeName" ColumnName="typeName" />
+                <ScalarProperty Name="active" ColumnName="active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="budgetModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="hashed_password" ColumnName="hashed_password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="pass_date" ColumnName="pass_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="years">
+            <EntityTypeMapping TypeName="budgetModel.year">
+              <MappingFragment StoreEntitySet="year">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="yearInt" ColumnName="yearInt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
