@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace BudgetApp.Controllers
@@ -14,7 +15,7 @@ namespace BudgetApp.Controllers
     {
         budgetEntities _db = new budgetEntities();
 
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
             return Ok(new { Name = "Zachary", Occupation = "Help Desk Analyst" });
         }
