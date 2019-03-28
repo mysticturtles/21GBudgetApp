@@ -15,8 +15,9 @@ namespace BudgetApp.Controllers
     {
         budgetEntities _db = new budgetEntities();
 
-        public async Task<IHttpActionResult> Get()
+        public IHttpActionResult Get()
         {
+
             return Ok(new { Name = "Zachary", Occupation = "Help Desk Analyst" });
         }
     }
