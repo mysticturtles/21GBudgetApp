@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="budgetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="budgetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="month">
           <Key>
             <PropertyRef Name="id" />
@@ -50,7 +50,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="yearInt" Type="int" Nullable="false" />
           <Property Name="active" Type="int" Nullable="false" />
         </EntityType>
@@ -61,8 +61,7 @@
           <EntitySet Name="users" EntityType="Self.users" Schema="budget" store:Type="Tables" />
           <EntitySet Name="year" EntityType="Self.year" Schema="budget" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="budgetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -107,21 +106,21 @@
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="pass_date" Type="DateTime" Precision="0" />
         </EntityType>
-        <EntityType Name="year">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="yearInt" Type="Int32" Nullable="false" />
-          <Property Name="active" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="budgetEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="months" EntityType="Self.month" />
           <EntitySet Name="transaction_log" EntityType="Self.transaction_log" />
           <EntitySet Name="types" EntityType="Self.type" />
           <EntitySet Name="users" EntityType="Self.user" />
-          <EntitySet Name="years" EntityType="Self.year" />
+          <EntitySet Name="years" EntityType="budgetModel.year" />
         </EntityContainer>
+        <EntityType Name="year">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="yearInt" Type="Int32" Nullable="false" />
+          <Property Name="active" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -176,9 +175,9 @@
           <EntitySetMapping Name="years">
             <EntityTypeMapping TypeName="budgetModel.year">
               <MappingFragment StoreEntitySet="year">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="yearInt" ColumnName="yearInt" />
                 <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="yearInt" ColumnName="yearInt" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
