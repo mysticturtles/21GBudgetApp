@@ -79,6 +79,7 @@ namespace BudgetApp.Controllers
                 {
                     _db.years.Where(i => i.yearInt == year).FirstOrDefault().active = 1;
                     _db.SaveChanges();
+                    return StatusCode(HttpStatusCode.Accepted);
                 }
             }
             else
