@@ -20,7 +20,7 @@ namespace BudgetApp.Controllers
 
         
 
-        public IHttpActionResult GetMonths([FromUri] bool GetMonth)
+        public IHttpActionResult GetMonths([FromUri] bool getMonth)
         {
             var dateObjects = (from mon in _db.months
                                where mon.active == 1
@@ -40,7 +40,7 @@ namespace BudgetApp.Controllers
             }
         }
 
-        public IHttpActionResult GetYears([FromUri] bool GetYear)
+        public IHttpActionResult GetYears([FromUri] bool getYear)
         {
             var dateObjects = (from y in _db.years
                                where y.active == 1
@@ -60,7 +60,7 @@ namespace BudgetApp.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult AddYear([FromUri] bool AddYear, [FromUri] int year)
+        public IHttpActionResult AddYear([FromUri] bool addYear, [FromUri] int year)
         {
             var Years = (from y in _db.years
                          where y.yearInt == year

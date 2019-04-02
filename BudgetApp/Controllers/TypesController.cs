@@ -16,7 +16,7 @@ namespace Budget.Controllers
         budgetEntities _db = new budgetEntities();
 
         [HttpGet]
-        public IHttpActionResult GetTypes([FromUri] bool GetTypes)
+        public IHttpActionResult GetTypes([FromUri] bool getTypes)
         {
             var types = (from t in _db.types
                          where t.active == 1
@@ -36,7 +36,7 @@ namespace Budget.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult AddType([FromUri] bool AddType, [FromUri] string typeMod, [FromUri] string typeName)
+        public IHttpActionResult AddType([FromUri] bool addType, [FromUri] string typeMod, [FromUri] string typeName)
         {
             var types = (from t in _db.types
                          where t.typeName == typeName &&
