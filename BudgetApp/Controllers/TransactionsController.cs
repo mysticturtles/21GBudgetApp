@@ -15,8 +15,8 @@ namespace Budget.Controllers
     {
         budgetEntities _db = new budgetEntities();
         
-        [HttpGet]
-        public IHttpActionResult GetIncomes([FromUri] bool getIncomes)
+        [HttpPost]
+        public IHttpActionResult GetIncomes([FromUri] bool getIncomes, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
             var Incomes = (from i in _db.transaction_log
                            join t in _db.types on i.type_id equals t.typeID
@@ -33,6 +33,19 @@ namespace Budget.Controllers
                                description = i.description,
                                reoccur = i.reoccuring
                            }).ToList();
+
+            if (filter == true)
+            {
+                var filterMonth = data.month;
+                var filterYear = data.year;
+
+
+                if (filterMonth > 0 || filterYear > 0)
+                {
+                    Incomes = Incomes.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
+                }
+
+            }
             if (Incomes.Count > 0)
             {
                 return Ok(Incomes);
@@ -43,8 +56,8 @@ namespace Budget.Controllers
             }
         }
 
-        [HttpGet]
-        public IHttpActionResult GetExpenses([FromUri] bool getExpenses)
+        [HttpPost]
+        public IHttpActionResult GetExpenses([FromUri] bool getExpenses, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
             var Expenses = (from e in _db.transaction_log
                            join t in _db.types on e.type_id equals t.typeID
@@ -61,6 +74,19 @@ namespace Budget.Controllers
                                description = e.description,
                                reoccur = e.reoccuring
                            }).ToList();
+
+            if (filter == true)
+            {
+                var filterMonth = data.month;
+                var filterYear = data.year;
+
+
+                if (filterMonth > 0 || filterYear > 0)
+                {
+                    Expenses = Expenses.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
+                }
+
+            }
             if (Expenses.Count > 0)
             {
                 return Ok(Expenses);
@@ -71,24 +97,36 @@ namespace Budget.Controllers
             }
         }
 
-        [HttpGet]
-        public IHttpActionResult GetPurchases([FromUri] bool getPurchases)
+        [HttpPost]
+        public IHttpActionResult GetPurchases([FromUri] bool getPurchases, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
             var Purchases = (from p in _db.transaction_log
-                            join t in _db.types on p.type_id equals t.typeID
-                            join u in _db.users on p.user_id equals u.userID
-                            where t.type_mod == "purchase"
-                            select new TransactionData
-                            {
-                                transactionID = p.transaction_id,
-                                spender = u.name,
-                                source = p.source,
-                                amount = p.amount,
-                                category = t.typeName,
-                                date = p.date,
-                                description = p.description,
-                                reoccur = p.reoccuring
-                            }).ToList();
+                             join t in _db.types on p.type_id equals t.typeID
+                             join u in _db.users on p.user_id equals u.userID
+                             where t.type_mod == "purchase"
+                             select new TransactionData
+                             {
+                                 transactionID = p.transaction_id,
+                                 spender = u.name,
+                                 source = p.source,
+                                 amount = p.amount,
+                                 category = t.typeName,
+                                 date = p.date,
+                                 description = p.description,
+                                 reoccur = p.reoccuring
+                             }).ToList();
+            if (filter == true)
+            {
+                var filterMonth = data.month;
+                var filterYear = data.year;
+
+
+                if (filterMonth > 0 || filterYear > 0)
+                {
+                    Purchases = Purchases.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
+                }
+
+            }
             if (Purchases.Count > 0)
             {
                 return Ok(Purchases);
@@ -125,5 +163,11 @@ namespace Budget.Controllers
         public DateTime date { get; set; }
         public string description { get; set; }
         public int? reoccur { get; set; }
+    }
+
+    public class FilterData
+    {
+        public int month { get; set; }
+        public int year { get; set; }
     }
 }
