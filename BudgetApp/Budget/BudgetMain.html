@@ -7,26 +7,18 @@
     <title>21G Budget</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="../CSS/Budget.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Signika" rel="stylesheet">
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#buttons">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.php">21G Budget</a>
-            </div>
-            <div class="collapse navbar-collapse" id="buttons">
-                <form class="navbar-form navbar-right" role="form" action="index.php" method="post">
-                    <button class="btn btn-success btn-sm" type="submit" name="income">Report Income</button>
-                    <button class="btn btn-warning btn-sm" type="submit" name="expense">Report Expense</button>
-                    <button class="btn btn-danger btn-sm" type="submit" name="purchase">Report Purchase</button>
-                    <button class="btn btn-info btn-sm" type="submit" name="reports">Reports</button>
-                    <button class="btn btn-primary btn-sm " type="submit" name="logout" data-hover="Logout">Logout</button>
-                </form>
+                <a class="navbar-brand" href="../Budget/BudgetMain.html">21G Budget</a>
+                <div class="float-right">
+                    <button class="btn-sm-success" type="button" name="transaction">Report Transaction</button>
+                    <button class="btn-sm-info" type="button" name="reports">Reports</button>
+                </div>
             </div>
         </div>
     </div>

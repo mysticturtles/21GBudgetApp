@@ -217,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Budget\BudgetMain.html" />
+    <Content Include="CSS\Budget.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Models\Budget.Context.tt">
@@ -364,7 +365,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="CSS\" />
     <Folder Include="JavaScript\" />
     <Folder Include="Views\Transactions\" />
     <Folder Include="Views\Types\" />
