@@ -14,9 +14,9 @@ namespace Budget.Controllers
     public class TransactionsController : ApiController
     {
         budgetEntities _db = new budgetEntities();
-        
+
         [HttpPost]
-        public IHttpActionResult GetIncomes([FromUri] bool getIncomes, [FromBody] FilterData data, [FromUri] bool filter = false)
+        public List<TransactionData> GetIncomes([FromUri] bool getIncomes, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
             var Incomes = (from i in _db.transaction_log
                            join t in _db.types on i.type_id equals t.typeID
@@ -40,40 +40,35 @@ namespace Budget.Controllers
                 var filterYear = data.year;
 
 
-                if (filterMonth > 0 || filterYear > 0)
+                if(filterMonth == 0) {
+                    Incomes = Incomes.Where(i => i.date.Year == filterYear).ToList(); ;
+                } else if (filterMonth > 0 || filterYear > 0)
                 {
                     Incomes = Incomes.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
                 }
 
             }
-            if (Incomes.Count > 0)
-            {
-                return Ok(Incomes);
-            }
-            else
-            {
-                return InternalServerError();
-            }
+            return Incomes;
         }
 
         [HttpPost]
-        public IHttpActionResult GetExpenses([FromUri] bool getExpenses, [FromBody] FilterData data, [FromUri] bool filter = false)
+        public List<TransactionData> GetExpenses([FromUri] bool getExpenses, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
             var Expenses = (from e in _db.transaction_log
-                           join t in _db.types on e.type_id equals t.typeID
-                           join u in _db.users on e.user_id equals u.userID
-                           where t.type_mod == "expense"
-                           select new TransactionData
-                           {
-                               transactionID = e.transaction_id,
-                               spender = u.name,
-                               source = e.source,
-                               amount = e.amount,
-                               category = t.typeName,
-                               date = e.date,
-                               description = e.description,
-                               reoccur = e.reoccuring
-                           }).ToList();
+                            join t in _db.types on e.type_id equals t.typeID
+                            join u in _db.users on e.user_id equals u.userID
+                            where t.type_mod == "expense"
+                            select new TransactionData
+                            {
+                                transactionID = e.transaction_id,
+                                spender = u.name,
+                                source = e.source,
+                                amount = e.amount,
+                                category = t.typeName,
+                                date = e.date,
+                                description = e.description,
+                                reoccur = e.reoccuring
+                            }).ToList();
 
             if (filter == true)
             {
@@ -81,24 +76,20 @@ namespace Budget.Controllers
                 var filterYear = data.year;
 
 
-                if (filterMonth > 0 || filterYear > 0)
+                if (filterMonth == 0)
+                {
+                    Expenses = Expenses.Where(i => i.date.Year == filterYear).ToList(); ;
+                } else if (filterMonth > 0 || filterYear > 0)
                 {
                     Expenses = Expenses.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
                 }
 
             }
-            if (Expenses.Count > 0)
-            {
-                return Ok(Expenses);
-            }
-            else
-            {
-                return InternalServerError();
-            }
+           return Expenses;
         }
 
         [HttpPost]
-        public IHttpActionResult GetPurchases([FromUri] bool getPurchases, [FromBody] FilterData data, [FromUri] bool filter = false)
+        public List<TransactionData> GetPurchases([FromUri] bool getPurchases, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
             var Purchases = (from p in _db.transaction_log
                              join t in _db.types on p.type_id equals t.typeID
@@ -121,20 +112,17 @@ namespace Budget.Controllers
                 var filterYear = data.year;
 
 
-                if (filterMonth > 0 || filterYear > 0)
+                if (filterMonth == 0)
+                {
+                    Purchases = Purchases.Where(i => i.date.Year == filterYear).ToList(); ;
+                } else if (filterMonth > 0 || filterYear > 0)
                 {
                     Purchases = Purchases.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
                 }
 
             }
-            if (Purchases.Count > 0)
-            {
-                return Ok(Purchases);
-            }
-            else
-            {
-                return InternalServerError();
-            }
+
+                return Purchases;
         }
 
         [HttpGet]
@@ -142,7 +130,7 @@ namespace Budget.Controllers
         {
             var LoggedInUser = User.Identity.Name;
 
-            if(LoggedInUser != null)
+            if (LoggedInUser != null)
             {
                 return Ok(LoggedInUser);
             }
@@ -151,7 +139,47 @@ namespace Budget.Controllers
                 return InternalServerError();
             }
         }
+
+        [HttpGet]
+        public IHttpActionResult GetBalance([FromUri] bool getBalance, [FromUri] int year)
+        {
+            var incomeTotal = new Decimal();
+            var expenseTotal = new Decimal();
+            var purchaseTotal = new Decimal();
+            var Balance = new Decimal();
+            var filterData = new FilterData();
+
+            filterData.month = 0;
+            filterData.year = year;
+            List<TransactionData> Incomes = GetIncomes(true, filterData, true);
+            List<TransactionData> Expenses = GetExpenses(true, filterData, true);
+            List<TransactionData> Purchases = GetPurchases(true, filterData, true);
+
+            foreach (var Income in Incomes)
+            {
+                incomeTotal += Income.amount;
+            }
+
+            foreach (var Expense in Expenses)
+            {
+                expenseTotal += Expense.amount;
+            }
+            foreach (var Purchase in Purchases)
+            {
+                purchaseTotal += Purchase.amount;
+            }
+            Balance = incomeTotal - (expenseTotal + purchaseTotal);
+
+            if (Balance > 0)
+            {
+                return Ok(Balance);
+            } else
+            {
+                return InternalServerError();
+            }
+        }
     }
+
 
     public class TransactionData
     {
@@ -163,7 +191,7 @@ namespace Budget.Controllers
         public DateTime date { get; set; }
         public string description { get; set; }
         public int? reoccur { get; set; }
-    }
+    }  
 
     public class FilterData
     {

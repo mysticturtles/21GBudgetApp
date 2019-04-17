@@ -9,18 +9,36 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="../CSS/Budget.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Signika" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
-    <div class="navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="../Budget/BudgetMain.html">21G Budget</a>
-                <div class="float-right">
-                    <button class="btn-sm-success" type="button" name="transaction">Report Transaction</button>
-                    <button class="btn-sm-info" type="button" name="reports">Reports</button>
+    <div class="navbar">
+        <span class="navbar-toggle" id="js-navbar-toggle">
+            <i class="fas fa-bars"></i>
+        </span>
+        <a href="../Budget/BudgetMain.html" class="logo"><i class="fas fa-money-bill-wave"></i> 21G Budget</a>
+        <ul class="main-nav" id="navbar">
+            <li><a href="#" class="nav-links"><i class="fas fa-receipt"></i> Report Transaction</a></li>
+            <li><a href="Reports.html" class="nav-links"><i class="fas fa-chart-pie"></i> Reports</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel-heading">
+                <h3 class="panel-title">Current Projected Balance : $</h3>
+                <br />
+                <div class="progress progress-striped active">
+       
+                    <!--
+                    <div class='progress-bar progress-bar-success' style='width: " . $percent ."'>
+                    <div class='progress-bar progress-bar-warning' style='width: " . $percent ."'>
+                    <div class='progress-bar progress-bar-danger' style='width: " . $percent ."'>
+                    -->
                 </div>
             </div>
         </div>
     </div>
+
+            <script src="../JavaScript/Budget.js"></script>
 </body>
 </html>
