@@ -26,6 +26,15 @@ body {
     font-family: 'Signika', sans-serif;
 }
 
+.panel-success {
+    background-color: var(--success);
+    border-radius: 10px;
+    margin: auto;
+    align-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
 .btn-sm-success {
     font-family: 'Signika', sans-serif;
     vertical-align: middle !important;
@@ -101,6 +110,10 @@ body {
 
 .active {
     display: block;
+}
+
+.inactive{
+    display: none;
 }
 
 @media screen and (min-width: 768px) {

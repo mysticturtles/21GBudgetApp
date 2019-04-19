@@ -10,8 +10,10 @@
     <link href="../CSS/Budget.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Signika" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../CSS/loading-bar.css" />
+    <script type="text/javascript" src="../JavaScript//loading-bar.js"></script>
 </head>
-<body>
+<body onload="onLoad()">
     <div class="navbar">
         <span class="navbar-toggle" id="js-navbar-toggle">
             <i class="fas fa-bars"></i>
@@ -24,10 +26,10 @@
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <div class="panel-heading">
-                <h3 class="panel-title">Current Projected Balance : $</h3>
+            <div class="panel-heading" id="BalanceDiv">
+                <h3 class="panel-title" id="BalanceNumber">Current Projected Balance : $</h3>
                 <br />
-                <div class="progress progress-striped active">
+                <div class="ldBar bigWidth" data-value="50" data-stroke-width="20px" style="width:50%;height:50%;margin:auto;">
        
                     <!--
                     <div class='progress-bar progress-bar-success' style='width: " . $percent ."'>
