@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="21GBudget" />
+  <setParameter name="budgetEntities-Web.config Connection String" value="metadata=res://*/Models.Budget.csdl|res://*/Models.Budget.ssdl|res://*/Models.Budget.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=ARK-APCH-03;initial catalog=budget;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+</parameters>

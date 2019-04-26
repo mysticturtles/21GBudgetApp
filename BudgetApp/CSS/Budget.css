@@ -4,10 +4,14 @@
     --more-ominous-sky: #093e47;
     --damp-grass: #194d0a;
     --wizard-green: #319e05;
-    --success: #31b50c;
-    --success-dark: #207408;
+    --income: #31b50c;
+    --income-dark: #207408;
     --info: #13a6d6;
     --info-dark: #1687ac;
+    --expense: #DF7401;
+    --expense-dark: #B45F04;
+    --purchase: #B40404;
+    --purchase-dark: #8A0808;
     /*
     font-family: 'Indie Flower', cursive;
     font-family: 'Signika', sans-serif;
@@ -26,8 +30,8 @@ body {
     font-family: 'Signika', sans-serif;
 }
 
-.panel-success {
-    background-color: var(--success);
+.panel-income {
+    background-color: var(--income);
     border-radius: 10px;
     margin: auto;
     align-content: center;
@@ -35,19 +39,28 @@ body {
     vertical-align: middle;
 }
 
-.btn-sm-success {
+.panel-purchase {
+    background-color: var(--purchase);
+    border-radius: 10px;
+    margin: auto;
+    align-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.btn-sm-income {
     font-family: 'Signika', sans-serif;
     vertical-align: middle !important;
     font-size: 16px;
     margin: auto;
-    background-color: var(--success);
+    background-color: var(--income);
     border-radius: 10px;
-    border-color: var(--success);
+    border-color: var(--income);
     display: inline-block !important;
 }
-    .btn-sm-success:hover {
-        background-color: var(--success-dark);
-        border-color: var(--success-dark);
+    .btn-sm-income:hover {
+        background-color: var(--income-dark);
+        border-color: var(--income-dark);
     }
 
 .btn-sm-info {
@@ -114,6 +127,10 @@ body {
 
 .inactive{
     display: none;
+}
+
+.bigWidth{
+    width: 200px;
 }
 
 @media screen and (min-width: 768px) {
@@ -185,4 +202,24 @@ body {
     border-radius: 0;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.fixed_header{
+    overflow: auto;
+    height: 100px;
+    width: 900px;
+    padding: 15px;
+    text-align: center;
+}
+
+.income{
+    background-color: var(--income);
+}
+
+.expense{
+    background-color: var(--expense);
+}
+
+.purchase{
+    background-color: var(--purchase);
 }

@@ -16,8 +16,9 @@ namespace Budget.Controllers
         budgetEntities _db = new budgetEntities();
 
         [HttpPost]
-        public List<TransactionData> GetIncomes([FromUri] bool getIncomes, [FromBody] FilterData data, [FromUri] bool filter = false)
+        public List<TransactionDataModified> GetIncomes([FromUri] bool getIncomes, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
+            var IncomesModified = new List<TransactionDataModified>();
             var Incomes = (from i in _db.transaction_log
                            join t in _db.types on i.type_id equals t.typeID
                            join u in _db.users on i.user_id equals u.userID
@@ -48,12 +49,45 @@ namespace Budget.Controllers
                 }
 
             }
-            return Incomes;
+            foreach(TransactionData income in Incomes)
+            {
+                var DateModified = income.date.ToString("MM-dd-yyyy");
+                var incomeId = income.transactionID;
+                var incomedata = new TransactionDataModified()
+                {
+                    transactionID = income.transactionID,
+                    spender = income.spender,
+                    source = income.source,
+                    amount = income.amount,
+                    category = income.category,
+                    date = DateModified,
+                    description = income.description,
+                    reoccur = income.reoccur
+                };
+                IncomesModified.Add(incomedata);
+
+            }
+            if(IncomesModified.Count <= 0){
+                var fakeIncome = new TransactionDataModified()
+                {
+                    transactionID = 0,
+                    spender = "NO RECORDS",
+                    source = "NO RECORDS",
+                    amount = 0,
+                    category = "NO RECORDS",
+                    date = "NO RECORDS",
+                    description = "NO RECORDS",
+                    reoccur = 0
+                };
+                IncomesModified.Add(fakeIncome);
+            }
+            return IncomesModified;
         }
 
         [HttpPost]
-        public List<TransactionData> GetExpenses([FromUri] bool getExpenses, [FromBody] FilterData data, [FromUri] bool filter = false)
+        public List<TransactionDataModified> GetExpenses([FromUri] bool getExpenses, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
+            var ExpensesModified = new List<TransactionDataModified>();
             var Expenses = (from e in _db.transaction_log
                             join t in _db.types on e.type_id equals t.typeID
                             join u in _db.users on e.user_id equals u.userID
@@ -85,12 +119,46 @@ namespace Budget.Controllers
                 }
 
             }
-           return Expenses;
+            foreach (TransactionData expense in Expenses)
+            {
+                var DateModified = expense.date.ToString("MM-dd-yyyy");
+                var expenseid = expense.transactionID;
+                var expensedata = new TransactionDataModified()
+                {
+                    transactionID = expense.transactionID,
+                    spender = expense.spender,
+                    source = expense.source,
+                    amount = expense.amount,
+                    category = expense.category,
+                    date = DateModified,
+                    description = expense.description,
+                    reoccur = expense.reoccur
+                };
+                ExpensesModified.Add(expensedata);
+
+            }
+            if (ExpensesModified.Count <= 0)
+            {
+                var fakeExpense = new TransactionDataModified()
+                {
+                    transactionID = 0,
+                    spender = "NO RECORDS",
+                    source = "NO RECORDS",
+                    amount = 0,
+                    category = "NO RECORDS",
+                    date = "NO RECORDS",
+                    description = "NO RECORDS",
+                    reoccur = 0
+                };
+                ExpensesModified.Add(fakeExpense);
+            }
+            return ExpensesModified;
         }
 
         [HttpPost]
-        public List<TransactionData> GetPurchases([FromUri] bool getPurchases, [FromBody] FilterData data, [FromUri] bool filter = false)
+        public List<TransactionDataModified> GetPurchases([FromUri] bool getPurchases, [FromBody] FilterData data, [FromUri] bool filter = false)
         {
+            var PurchasesModified = new List<TransactionDataModified>();
             var Purchases = (from p in _db.transaction_log
                              join t in _db.types on p.type_id equals t.typeID
                              join u in _db.users on p.user_id equals u.userID
@@ -121,8 +189,40 @@ namespace Budget.Controllers
                 }
 
             }
+            foreach (TransactionData purchase in Purchases)
+            {
+                var DateModified = purchase.date.ToString("MM-dd-yyyy");
+                var purchaseid = purchase.transactionID;
+                var purchasedata = new TransactionDataModified()
+                {
+                    transactionID = purchase.transactionID,
+                    spender = purchase.spender,
+                    source = purchase.source,
+                    amount = purchase.amount,
+                    category = purchase.category,
+                    date = DateModified,
+                    description = purchase.description,
+                    reoccur = purchase.reoccur
+                };
+                PurchasesModified.Add(purchasedata);
 
-                return Purchases;
+            }
+            if (PurchasesModified.Count <= 0)
+            {
+                var fakePurchase = new TransactionDataModified()
+                {
+                    transactionID = 0,
+                    spender = "NO RECORDS",
+                    source = "NO RECORDS",
+                    amount = 0,
+                    category = "NO RECORDS",
+                    date = "NO RECORDS",
+                    description = "NO RECORDS",
+                    reoccur = 0
+                };
+                PurchasesModified.Add(fakePurchase);
+            }
+            return PurchasesModified;
         }
 
         [HttpGet]
@@ -151,9 +251,9 @@ namespace Budget.Controllers
 
             filterData.month = 0;
             filterData.year = year;
-            List<TransactionData> Incomes = GetIncomes(true, filterData, true);
-            List<TransactionData> Expenses = GetExpenses(true, filterData, true);
-            List<TransactionData> Purchases = GetPurchases(true, filterData, true);
+            List<TransactionDataModified> Incomes = GetIncomes(true, filterData, true);
+            List<TransactionDataModified> Expenses = GetExpenses(true, filterData, true);
+            List<TransactionDataModified> Purchases = GetPurchases(true, filterData, true);
 
             foreach (var Income in Incomes)
             {
@@ -169,12 +269,12 @@ namespace Budget.Controllers
                 purchaseTotal += Purchase.amount;
             }
             Balance = incomeTotal - (expenseTotal + purchaseTotal);
-
-            if (Balance > 0)
+            if (Balance >= 0)
             {
                 return Ok(Balance);
-            } else
-            {
+            } else if(Balance <= 0){
+                return Ok(Balance);
+            } else{
                 return InternalServerError();
             }
         }
@@ -191,7 +291,19 @@ namespace Budget.Controllers
         public DateTime date { get; set; }
         public string description { get; set; }
         public int? reoccur { get; set; }
-    }  
+    }
+
+    public class TransactionDataModified
+    {
+        public int transactionID { get; set; }
+        public string spender { get; set; }
+        public string source { get; set; }
+        public decimal amount { get; set; }
+        public string category { get; set; }
+        public string date { get; set; }
+        public string description { get; set; }
+        public int? reoccur { get; set; }
+    }
 
     public class FilterData
     {

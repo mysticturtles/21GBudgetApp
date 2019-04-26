@@ -29,18 +29,61 @@
             <div class="panel-heading" id="BalanceDiv">
                 <h3 class="panel-title" id="BalanceNumber">Current Projected Balance : $</h3>
                 <br />
-                <div class="ldBar bigWidth" data-value="50" data-stroke-width="20px" style="width:50%;height:50%;margin:auto;">
-       
-                    <!--
-                    <div class='progress-bar progress-bar-success' style='width: " . $percent ."'>
+                <!--<div class="ldBar bigWidth" data-value="50" data-stroke-width="20px" style="width:50%;height:50%;margin:auto;">
+
+
+                    <div class='progress-bar progress-bar-income' style='width: " . $percent ."'>
                     <div class='progress-bar progress-bar-warning' style='width: " . $percent ."'>
                     <div class='progress-bar progress-bar-danger' style='width: " . $percent ."'>
-                    -->
-                </div>
+
+                </div>-->
             </div>
         </div>
     </div>
+    <div class="row" id="incomeTable">
+        <table class="fixed_header income" id="income">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Source</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="incomedata"></tbody>
+        </table>
+    </div>
+    <div class="row" id="expenseTable">
+        <table class="fixed_header expense" id="expense">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Source</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="expensedata"></tbody>
+        </table>
+    </div>
+    <div class="row" id="purchaseTable">
+        <table class="fixed_header purchase" id="purchase">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Source</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="purchasedata"></tbody>
+        </table>
+    </div>1
 
-            <script src="../JavaScript/Budget.js"></script>
+
+<script src="../JavaScript/Budget.js"></script>
 </body>
 </html>
