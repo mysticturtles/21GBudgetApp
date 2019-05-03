@@ -20,7 +20,10 @@ namespace Budget.Controllers
         {
             var types = (from t in _db.types
                          where t.active == 1
-                         select new TypeData {
+                         orderby t.typeName ascending
+                         select new TypeData
+                         {
+                             typeId = t.typeID,
                              typeMod = t.type_mod,
                              typeName = t.typeName
                          }).ToList();
@@ -99,6 +102,7 @@ namespace Budget.Controllers
 
     public class TypeData
     {
+        public int typeId { get; set; }
         public string typeMod { get; set; }
         public string typeName { get; set; }
     }

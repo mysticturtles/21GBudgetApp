@@ -2,9 +2,90 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <link href="../CSS/Budget.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Content/chosen.min.css" />
+    <script src="../Content/chosen.jquery.min.js"></script>
     <title></title>
 </head>
 <body>
-
+    <div class="frontPage">
+        <div id="AddTransaction"><h2>Add Transaction</h2></div>
+        <div class="centerForm">
+            <div class="formSpacing" id="CategorySection">
+                <div class="leftForm" id="CategoryLabelSection">
+                    <label class="formLabel" id="TransactionCategory" for="CategoryDropDown">Transaction Category</label>
+                </div>
+                <div class="rightForm" id="CategoryInputSection">
+                    <select class="maindropdown" id="CategoryDropDown">
+                    </select>
+                </div>
+            </div>
+            <div class="formSpacing" id="SourceSection">
+                <div class="leftForm" id="SourceLabelSection">
+                    <label class="formLabel" id="Source" for="SourceInput">Transaction Source</label>
+                </div>
+                <div class="rightForm" id="SourceInputSection">
+                    <input type="text" class="form-control formSpacing" id="SourceInput" name="SourceInput" required />
+                </div>
+            </div>
+            <div class="formSpacing" id="AmountSection">
+                <div class="leftForm" id="AmountLabelSection">
+                    <label class="formLabel" id="Amount" for="AmountInput">Transaction Amount</label>
+                </div>
+                <div class="rightForm" id="AmountInputSection">
+                    <input type="text" class="form-control formSpacing" id="AmountInput" name="AmountInput" required />
+                </div>
+            </div>
+            <div class="formSpacing" id="TypeSection">
+                <div class="leftForm" id="TypeLabelSection">
+                    <label class="formLabel" id="Category" for="TransactionTypeDropdown">Transaction Type</label>
+                </div>
+                <div class="rightForm" id="TypeDropdownSection">
+                    <select class="maindropdown" id="TransactionTypeDropdown"> 
+                    </select>
+                </div>
+            </div>
+            <div class="formSpacing" id="DateSection">
+                <div class="leftForm" id="DateLabelSection">
+                    <label class="formLabel" id="Date" for="DateInput">Transaction Date</label>
+                </div>
+                <div class="rightForm" id="DateInputSection">
+                    <input name="DateInput" type="date" class="form-control" id="DateInput" required />
+                </div>
+            </div>
+            <div class="formSpacing" id="DescriptionSection">
+                <div class="leftForm" id="DescriptionLabelSection">
+                    <label class="formLabel" id="Description" for="DescriptionInput">Description</label>
+                </div>
+                <div class="rightForm" id="DescriptionInputSection">
+                    <input name="DescriptionInput" id="DescriptionInput" class="form-control formSpacing" type="text" />
+                </div>
+            </div>
+            <div class="formSpacing" id="ReoccuringSection">
+                <div class="leftForm" id="ReoccuringLabelSection">
+                    <label class="formLabel" id="Reoccuring" for="ReoccuringDropDown">Reoccuring?</label>
+                </div>
+                <div class="rightForm" id="ReoccuringDropdownSection">
+                    <select class="maindropdown chosen" id="ReoccuringDropDrown">
+                    </select>
+                </div>
+            </div>
+            <div class="formSpacing" id="SpenderSection">
+                <div class="leftForm" id="SpenderLabelSection">
+                    <label class="formLabel" id="Spender" for="SpenderDropDown">Transaction Spender</label>
+                </div>
+                <div class="rightForm" id="SpenderDropdownSection">
+                    <select class="maindropdown" id="SpenderDropDown">
+                    </select>
+                </div>
+            </div>
+            <div class="formSpacing">
+                <button class="confirmButton" id="addTransaction">Add Transaction</button>
+                <button class="closeButton" id="closeTransactionFrom">Close</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../JavaScript/ReportTransaction.js"></script>
 </body>
 </html>

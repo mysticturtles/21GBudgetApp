@@ -8,7 +8,7 @@
     --income-dark: #207408;
     --info: #13a6d6;
     --info-dark: #1687ac;
-    --expense: #DF7401;
+    --expense: #FC8700;
     --expense-dark: #B45F04;
     --purchase: #B40404;
     --purchase-dark: #8A0808;
@@ -28,6 +28,11 @@
 body {
     background-color: var(--take-a-bow);
     font-family: 'Signika', sans-serif;
+    
+}
+
+.base{
+    z-index: 1;
 }
 
 .panel-income {
@@ -207,19 +212,217 @@ body {
 .fixed_header{
     overflow: auto;
     height: 100px;
-    width: 900px;
+    width: 100%;
     padding: 15px;
     text-align: center;
 }
+.fixed_header td{
+    width: 20%;
+}
+
+
+
 
 .income{
     background-color: var(--income);
+}
+
+.income tr:nth-child(odd){
+    background-color: var(--income);
+}
+
+.income tr:nth-child(even){
+    background-color: var(--income-dark)
 }
 
 .expense{
     background-color: var(--expense);
 }
 
+    .expense tr:nth-child(odd) {
+        background-color: var(--expense);
+    }
+
+
+    .expense tr:nth-child(even) {
+        background-color: var(--expense-dark);
+    }
+
 .purchase{
     background-color: var(--purchase);
 }
+
+.purchase tr:nth-child(odd){
+    background-color: var(--purchase);
+}
+
+.purchase tr:nth-child(even){
+    background-color: var(--purchase-dark);
+}
+
+
+.HidePage{
+    background-color: var(--mcgray);
+    opacity: 0.8;
+    left: 0;
+    top: 0;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: none;
+    z-index: 2;
+}
+
+.blur {
+    
+    display: none;
+}
+
+.frontPage{
+    z-index: 3;
+    text-align: center;
+    position: fixed;
+    background-color: var(--more-ominous-sky);
+    border: thick;
+    border-radius: 15px;
+    border-color: black;
+    width: 600px;
+    max-height: 90%;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    top: 20px;
+    height: 600px;
+}
+
+.centerForm{
+    width: 90%;
+    padding: 30px;
+    border-color: black;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.formLabel {
+    padding-bottom: 0;
+    float: left;
+    border-radius: 20px;
+    padding: 2px;
+    vertical-align: middle;
+    color: lightgray;
+    height: 30px;
+    z-index: 6;
+}
+
+.maindropdown {
+    border-radius: 5px;
+    background-color: white;
+    width: 150px;
+    height: 30px;
+    color: #3c5161;
+    margin-right: auto;
+    margin-left: auto;
+    vertical-align: bottom;
+    z-index: 6;
+}
+
+.form-control {
+    display: block;
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+    color: #3c5161;
+    background-color: white;
+    margin-right: auto;
+    margin-left: auto;
+    vertical-align: bottom;
+    z-index: 6;
+}
+
+.rightForm {
+    width: 50%;
+    float: right;
+    padding-bottom: 15px;
+    height: 45px;
+    z-index: 5;
+}
+.leftForm {
+    width: 50%;
+    float: left;
+    padding-bottom: 15px;
+    height: 45px;
+    z-index: 5;
+}
+
+
+.confirmButton {
+    background-color: var(--income);
+    border-radius: 15px;
+    color: lightgray;
+    clear: both;
+    font-weight: 400;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    font-size: 24px;
+    width: 200px;
+    height: 60px;
+    vertical-align: middle;
+}
+
+.confirmButton:hover {
+    background-color: var(--income-dark)
+}
+
+.closeButton {
+    background-color: var(--purchase);
+    border-radius: 15px;
+    color: lightgray;
+    clear: both;
+    font-weight: 400;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    font-size: 24px;
+    width: 200px;
+    height: 60px;
+    vertical-align: middle;
+}
+
+.closeButton:hover{
+    background-color: var(--purchase-dark);
+}
+
+.deleteButton {
+    background-color: var(--expense);
+    border-radius: 15px;
+    color: lightgray;
+    clear: both;
+    font-weight: 400;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    font-size: 24px;
+    width: 400px;
+    height: 60px;
+    vertical-align: middle;
+    margin-top: 5px;
+}
+.deleteButton:hover{
+    background-color: var(--expense-dark);
+}
+
+.clickableID {
+    cursor: pointer;
+}
+
+/*.InputField {
+    display: none;
+    margin: 0 auto;
+    width: 1024px;
+    border: 1px solid #000000;
+    background-color: #d4d4d4;
+    margin-top: 10px;
+}*/
+

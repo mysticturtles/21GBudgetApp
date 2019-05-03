@@ -225,6 +225,87 @@ namespace Budget.Controllers
             return PurchasesModified;
         }
 
+        [HttpPost]
+        public IHttpActionResult addTransaction ([FromUri] bool addTransaction, [FromBody] TransactionUpload data)
+        {
+            var transaction = new transaction_log();
+            transaction.user_id = data.spender;
+            transaction.source = data.source;
+            transaction.amount = data.amount;
+            transaction.type_id = data.category;
+            transaction.date = DateTime.Parse(data.date);
+            transaction.description = data.description;
+            transaction.reoccuring = data.reoccur;
+
+            _db.transaction_log.Add(transaction);
+            _db.SaveChanges();
+
+            return Created(transaction.description, transaction.transaction_id);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetTransaction ([FromUri] bool getTransaction, [FromUri] int Id)
+        {
+            var Transaction = (from p in _db.transaction_log
+                             join t in _db.types on p.type_id equals t.typeID
+                             join u in _db.users on p.user_id equals u.userID
+                             where p.transaction_id == Id
+                             select new SingleTransaction
+                             {
+                                 transactionID = p.transaction_id,
+                                 spender = u.userID,
+                                 source = p.source,
+                                 amount = p.amount,
+                                 category = t.typeID,
+                                 date = p.date,
+                                 description = p.description,
+                                 reoccur = p.reoccuring
+                             }).FirstOrDefault();
+
+            var DateModified = Transaction.date.ToString("MM-dd-yyyy");
+            var TransactionModified = new TransactionUpload()
+            {
+                transactionID = Transaction.transactionID,
+                spender = Transaction.spender,
+                source = Transaction.source,
+                amount = Transaction.amount,
+                category = Transaction.category,
+                date = DateModified,
+                description = Transaction.description,
+                reoccur = Transaction.reoccur
+            };
+
+            if (TransactionModified != null)
+            {
+                return Ok(TransactionModified);
+            } else
+            {
+                return InternalServerError();
+            }
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteTransaction ([FromUri] bool deleteTransaction, [FromUri] int Id)
+        {
+            var deleteTransactionList = from t in _db.transaction_log
+                                        where t.transaction_id == Id
+                                        select t;
+            foreach (var transaction in deleteTransactionList)
+            {
+                _db.transaction_log.Remove(transaction);
+            }
+
+            try
+            {
+                _db.SaveChanges();
+                return Ok(Id);
+            }
+            catch
+            {
+                return InternalServerError();
+            }
+        }
+
         [HttpGet]
         public IHttpActionResult GetUser([FromUri] bool getUser)
         {
@@ -303,6 +384,31 @@ namespace Budget.Controllers
         public string date { get; set; }
         public string description { get; set; }
         public int? reoccur { get; set; }
+    }
+
+    public class TransactionUpload
+    {
+        public int transactionID { get; set; }
+        public int spender { get; set; }
+        public string source { get; set; }
+        public decimal amount { get; set; }
+        public int category { get; set; }
+        public string date { get; set; }
+        public string description { get; set; }
+        public int? reoccur { get; set; }
+    }
+
+    public class SingleTransaction
+    {
+        public int transactionID { get; set; }
+        public int spender { get; set; }
+        public string source { get; set; }
+        public decimal amount { get; set; }
+        public int category { get; set; }
+        public DateTime date { get; set; }
+        public string description { get; set; }
+        public int? reoccur { get; set; }
+
     }
 
     public class FilterData
