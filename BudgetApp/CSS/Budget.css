@@ -24,6 +24,9 @@
     margin: 0;
 }
 
+.open {
+    display: block;
+}
 
 body {
     background-color: var(--take-a-bow);
@@ -417,6 +420,66 @@ body {
     cursor: pointer;
 }
 
+
+.dropdown {
+    display: inline-block;
+    position: relative;
+    font-size: 16px;
+    font-family: "Arial";
+}
+
+.dropdown-button {
+    background: var(--more-ominous-sky);
+    min-width: 100px;
+    color: #fff;
+    letter-spacing: 0.025rem;
+    box-sizing: border-box;
+    padding: 10px 30px 10px 20px;
+    position: relative;
+    cursor: pointer;
+    transition: background .3s ease;
+}
+
+    .dropdown-button:hover {
+        background: #09475E;
+        transition: background .3s ease;
+    }
+
+.dropdown ul {
+    visibility: hidden;
+    padding: 0;
+    list-style: none;
+    box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2);
+    position: absolute;
+    left: 0;
+    margin-top: 2px;
+    top: 100%;
+    min-width: 90%;
+}
+.dropdown li {
+    background: #fff;
+    padding: 8px 10px 8px 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+    .dropdown li:hover {
+        background: #f6f6f6;
+        transition: background .2s ease;
+    }
+
+.triangle {
+    font-size: 50%;
+    position: absolute;
+    right: 10px;
+    top: -2px;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 5px;
+    color: #fff;
+}
 /*.InputField {
     display: none;
     margin: 0 auto;

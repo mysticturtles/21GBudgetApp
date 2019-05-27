@@ -2,20 +2,127 @@
 
 let navBarToggle = document.getElementById('js-navbar-toggle');
 
+var activeDropdown = {};  
+
 navBarToggle.addEventListener('click', function () {
     mainNav.classList.toggle('active');
 })
 
+document.getElementById('yearDropdown').addEventListener('click', function () {
+    if (activeDropdown.id && activeDropdown.id !== event.target.id) {
+        activeDropdown.element.style.visibility = 'hidden';
+    }
+    if (event.target.tagName === 'LI') {
+        document.getElementById('yearText').innerHTML = event.target.innerHTML;
+        year = document.getElementById('yearText').innerHTML
+        month = document.getElementById('monthText').innerHTML
+        newDate = new Date(year + month + '01')
+        console.log(newDate);
+        mainDataSection(newDate);
+    }
+    for (var i = 0; i < this.children.length; i++) {
+        if (this.children[i].classList.contains('dropdown-selection')) {
+            activeDropdown.id = this.id;
+            activeDropdown.element = this.children[i];
+            activeDropdown.span = 'yearCaret';
+            this.children[i].style.visibility = 'visible';
+        }
+    }
+    document.getElementById('yearCaret').classList.remove('fa-caret-square-right')
+    document.getElementById('yearCaret').classList.add('fa-caret-square-down')
+
+    
+});
+
+document.getElementById('monthDropdown').addEventListener('click', function () {
+    if (activeDropdown.id && activeDropdown.id !== event.target.id) {
+        activeDropdown.element.style.visibility = 'hidden';
+    }
+    if (event.target.tagName === 'LI') {
+        document.getElementById('monthText').innerHTML = event.target.innerHTML;
+        year = document.getElementById('yearText').innerHTML
+        month = document.getElementById('monthText').innerHTML
+        newDate = new Date(year + month + '01')
+        console.log(newDate);
+        mainDataSection(newDate)
+    }
+    for (var i = 0; i < this.children.length; i++) {
+        if (this.children[i].classList.contains('dropdown-selection')) {
+            activeDropdown.id = this.id;
+            activeDropdown.element = this.children[i];
+            activeDropdown.span = 'monthCaret';
+            this.children[i].style.visibility = 'visible';
+        }
+    }
+    document.getElementById('monthCaret').classList.remove('fa-caret-square-right')
+    document.getElementById('monthCaret').classList.add('fa-caret-square-down')
+
+    
+});
+
+window.onclick = function (event) {
+    if (!event.target.classList.contains('dropdown-button')) {
+        activeDropdown.element.style.visibility = 'hidden';
+        document.getElementById(activeDropdown.span).classList.remove('fa-caret-square-down')
+        document.getElementById(activeDropdown.span).classList.add('fa-caret-square-right')
+    }
+}
 function onLoad() {
     var today = new Date()
-    //Gets the current projected balance
+    console.log(today)
+    mainDataSection(today)
+    getMonths(today)
+    getYears(today)
+}
+
+function getMonths(today) {
     $.ajax({
         method: "GET",
-        url: "../api/Transactions?getBalance=true&year=" + today.getFullYear(),
+        url: "../api/date?getMonth=true",
+        dataType: "json",
+        success: function (data) {
+            var Months = [];
+            $.each(data, function (index, value) {
+                Months.push('<li value="' + value.monthInt + '">' + value.monthName + '</li>')
+                if (value.monthInt == today.getMonth() + 1) {
+                    document.getElementById('monthText').textContent = value.monthName
+                        
+                }
+            });
+            $('#monthOptions').html(Months);
+        },       
+    })
+}
+
+function getYears(today) {
+    $.ajax({
+        method: "GET",
+        url: "../api/date?getYear=true",
+        dataType: "json",
+        success: function (data) {
+            var Years = [];
+            $.each(data, function (index, value) {
+                Years.push('<li value="' + value.yearInt + '">' + value.yearInt + '</li>')
+                if (value.yearInt == today.getFullYear()) {
+                    document.getElementById('yearText').textContent = value.yearInt
+                }
+            });
+            $('#yearOptions').html(Years);
+        },
+    })
+}
+
+function mainDataSection(selectedDate) {
+    //Gets the current projected balance
+
+    $.ajax({
+        method: "GET",
+        url: "../api/Transactions?getBalance=true&year=" + selectedDate.getFullYear(),
         dataType: "json",
         success: function (data) {
             if (data > 0) {
                 document.getElementById('BalanceDiv').classList.add('panel-income')
+                document.getElementById('BalanceDiv').classList.remove('panel-purchase')
                 document.getElementById('BalanceNumber').innerHTML = 'Current Projected Balance : $' + data;
             } else {
                 document.getElementById('BalanceDiv').classList.add('panel-purchase')
@@ -24,13 +131,14 @@ function onLoad() {
         },
         error: function (data) {
             document.getElementById('BalanceDiv').classList.add('panel-purchase')
+            document.getElementById('BalanceDiv').classList.remove('panel-income')
             document.getElementById('BalanceNumber').innerHTML = 'Current Projected Balance : $' + data;
         }
     });
     //Gets the month and year for use in the table
     data = {
-        month:  /*1,*/today.getMonth() + 1,
-        year: today.getFullYear()
+        month:  /*1,*/selectedDate.getMonth() + 1,
+        year: selectedDate.getFullYear()
     }
     //Loads the Incomes for this month and builds the table
     $.ajax({
@@ -43,6 +151,7 @@ function onLoad() {
                 document.getElementById('incomeTable').classList.add('inactive')
                 console.log('Hiding Income Table')
             } else {
+                document.getElementById('incomeTable').classList.remove('inactive')
                 var incomes = [];
                 $.each(data, function (index, value) {
                     incomes.push('<tr><td class="clickableID">' + value.transactionID + '</td><td>' + value.source + '</td><td>' + value.amount + '</td><td>' + value.category + '</td><td>' + value.date + '</td></tr>');
@@ -67,6 +176,7 @@ function onLoad() {
                 document.getElementById('expenseTable').classList.add('inactive')
                 console.log('Hiding Expense Table')
             } else {
+                document.getElementById('expenseTable').classList.remove('inactive')
                 var incomes = [];
                 $.each(data, function (index, value) {
                     incomes.push('<tr><td class="clickableID">' + value.transactionID + '</td><td>' + value.source + '</td><td>' + value.amount + '</td><td>' + value.category + '</td><td>' + value.date + '</td></tr>');
@@ -91,6 +201,7 @@ function onLoad() {
                 document.getElementById('purchaseTable').classList.add('inactive')
                 console.log('Hiding Purchase Table')
             } else {
+                document.getElementById('purchaseTable').classList.remove('inactive')
                 var incomes = [];
                 $.each(data, function (index, value) {
                     incomes.push('<tr><td class="clickableID">' + value.transactionID + '</td><td>' + value.source + '</td><td>' + value.amount + '</td><td>' + value.category + '</td><td>' + value.date + '</td></tr>');

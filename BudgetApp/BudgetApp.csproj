@@ -217,6 +217,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Auth.aspx" />
     <Content Include="Budget\BudgetMain.html" />
     <Content Include="Budget\Reports.html" />
     <Content Include="Content\chosen.jquery.min.js" />
@@ -311,6 +312,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Auth.aspx.cs">
+      <DependentUpon>Auth.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth.aspx.designer.cs">
+      <DependentUpon>Auth.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\TypesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -331,7 +339,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Budget.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\DateObjects.cs" />
+    <Compile Include="Controllers\DateController.cs" />
     <Compile Include="Models\month.cs">
       <DependentUpon>Budget.tt</DependentUpon>
     </Compile>

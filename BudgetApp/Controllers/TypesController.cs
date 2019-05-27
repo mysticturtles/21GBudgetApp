@@ -16,25 +16,48 @@ namespace Budget.Controllers
         budgetEntities _db = new budgetEntities();
 
         [HttpGet]
-        public IHttpActionResult GetTypes([FromUri] bool getTypes)
+        public IHttpActionResult GetTypes([FromUri] bool getTypes, [FromUri] string filter = "false")
         {
-            var types = (from t in _db.types
-                         where t.active == 1
-                         orderby t.typeName ascending
-                         select new TypeData
-                         {
-                             typeId = t.typeID,
-                             typeMod = t.type_mod,
-                             typeName = t.typeName
-                         }).ToList();
+            if (filter == "false")
+            {
+                var types = (from t in _db.types
+                             where t.active == 1
+                             orderby t.typeName ascending
+                             select new TypeData
+                             {
+                                 typeId = t.typeID,
+                                 typeMod = t.type_mod,
+                                 typeName = t.typeName
+                             }).ToList();
 
-            if (types.FirstOrDefault() != null)
+                if (types.FirstOrDefault() != null)
+                {
+                    return Ok(types);
+                }
+                else
+                {
+                    return StatusCode(HttpStatusCode.NoContent);
+                }
+            } else
             {
-                return Ok(types);
-            }
-            else
-            {
-                return StatusCode(HttpStatusCode.NoContent);
+                var types = (from t in _db.types
+                             where t.active == 1 && t.type_mod == filter
+                             orderby t.typeName ascending
+                             select new TypeData
+                             {
+                                 typeId = t.typeID,
+                                 typeMod = t.type_mod,
+                                 typeName = t.typeName
+                             }).ToList();
+
+                if (types.FirstOrDefault() != null)
+                {
+                    return Ok(types);
+                }
+                else
+                {
+                    return StatusCode(HttpStatusCode.NoContent);
+                }
             }
         }
 

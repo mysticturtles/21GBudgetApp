@@ -14,7 +14,7 @@ using System.Web.Http;
 namespace BudgetApp.Controllers
 {
 
-    public class DateObjectController : ApiController
+    public class DateController : ApiController
     {
         budgetEntities _db = new budgetEntities();
 
@@ -59,7 +59,7 @@ namespace BudgetApp.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public IHttpActionResult AddYear([FromUri] bool addYear, [FromUri] int year)
         {
             var Years = (from y in _db.years
