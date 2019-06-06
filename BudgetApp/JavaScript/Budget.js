@@ -584,7 +584,49 @@ $(document.body).on('click', '#addTransaction', function (e) {
 });
 
 
+$(document.body).on('click', '#UpdateTransaction', function (e) {
+    console.log('Clicked on the add button!')
+    var spender = $(document.getElementById('SpenderDropDown')).val()
+    console.log(spender);
+    var source = $(document.getElementById('SourceInput')).val();
+    console.log(source);
+    var amount = $(document.getElementById('AmountInput')).val();
+    console.log(amount);
+    var category = $(document.getElementById('TransactionTypeDropdown')).val();
+    console.log(category);
+    var date = $(document.getElementById('DateInput')).val()
+    console.log(date);
+    var description = $(document.getElementById('DescriptionInput')).val()
+    console.log(description);
+    var reoccur = $(document.getElementById('ReoccuringDropDrown')).val();
+    console.log(reoccur);
+    var Id = $(document.getElementById('IDInput')).val();
+    console.log(reoccur);
+    if (spender == 0 || source == "" || amount <= 0 || category == "" || date == "" || description == "" || reoccur >= 2 || Id <= 0) {
+        alert("Please complete all fields before submiting form")
+    } else {
+        data = {
+            spender: spender,
+            source: source,
+            amount: amount,
+            category: category,
+            date: date,
+            description: description,
+            reoccur: reoccur,
+            transactionID: Id
+        }
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: "../api/Transactions?addTransaction=true",
+            data: data,
+            success: function (data) {
+                alert("Created Transaction " + data)
+            }
+        })
 
+    }
+});
 
 $(document.body).on('change', '#CategoryDropDown', filterByType);
 $(document.body).on('click', '.clickableID', function () {

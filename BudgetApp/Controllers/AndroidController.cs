@@ -8,10 +8,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Budget.Controllers;
 
 namespace Budget.Controllers
 {
-    public class TransactionsController : ApiController
+    public class AndroidController : ApiController
     {
         budgetEntities _db = new budgetEntities();
 
@@ -41,15 +42,17 @@ namespace Budget.Controllers
                 var filterYear = data.year;
 
 
-                if(filterMonth == 0) {
+                if (filterMonth == 0)
+                {
                     Incomes = Incomes.Where(i => i.date.Year == filterYear).ToList(); ;
-                } else if (filterMonth > 0 || filterYear > 0)
+                }
+                else if (filterMonth > 0 || filterYear > 0)
                 {
                     Incomes = Incomes.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
                 }
 
             }
-            foreach(TransactionData income in Incomes)
+            foreach (TransactionData income in Incomes)
             {
                 var DateModified = income.date.ToString("MM-dd-yyyy");
                 var incomeId = income.transactionID;
@@ -67,7 +70,8 @@ namespace Budget.Controllers
                 IncomesModified.Add(incomedata);
 
             }
-            if(IncomesModified.Count <= 0){
+            if (IncomesModified.Count <= 0)
+            {
                 var fakeIncome = new TransactionDataModified()
                 {
                     transactionID = 0,
@@ -113,7 +117,8 @@ namespace Budget.Controllers
                 if (filterMonth == 0)
                 {
                     Expenses = Expenses.Where(i => i.date.Year == filterYear).ToList(); ;
-                } else if (filterMonth > 0 || filterYear > 0)
+                }
+                else if (filterMonth > 0 || filterYear > 0)
                 {
                     Expenses = Expenses.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
                 }
@@ -183,7 +188,8 @@ namespace Budget.Controllers
                 if (filterMonth == 0)
                 {
                     Purchases = Purchases.Where(i => i.date.Year == filterYear).ToList(); ;
-                } else if (filterMonth > 0 || filterYear > 0)
+                }
+                else if (filterMonth > 0 || filterYear > 0)
                 {
                     Purchases = Purchases.Where(i => i.date.Month == filterMonth && i.date.Year == filterYear).ToList(); ;
                 }
@@ -225,116 +231,6 @@ namespace Budget.Controllers
             return PurchasesModified;
         }
 
-        [HttpPost]
-        public IHttpActionResult addTransaction ([FromUri] bool addTransaction, [FromBody] TransactionUpload data)
-        {
-            var transaction = new transaction_log();
-            transaction.user_id = data.spender;
-            transaction.source = data.source;
-            transaction.amount = data.amount;
-            transaction.type_id = data.category;
-            transaction.date = DateTime.Parse(data.date);
-            transaction.description = data.description;
-            transaction.reoccuring = data.reoccur;
-
-            _db.transaction_log.Add(transaction);
-            _db.SaveChanges();
-
-            return Created(transaction.description, transaction.transaction_id);
-        }
-
-        [HttpPost]
-        public IHttpActionResult updateTransaction ([FromUri] bool UpdateTransaction, [FromBody] TransactionUpload data)
-        {
-            _db.transaction_log.Where(i => i.transaction_id == data.transactionID).FirstOrDefault().type_id = data.category;
-            _db.transaction_log.Where(i => i.transaction_id == data.transactionID).FirstOrDefault().source = data.source;
-            _db.transaction_log.Where(i => i.transaction_id == data.transactionID).FirstOrDefault().date = DateTime.Parse(data.date);
-            _db.transaction_log.Where(i => i.transaction_id == data.transactionID).FirstOrDefault().amount = data.amount;
-            _db.transaction_log.Where(i => i.transaction_id == data.transactionID).FirstOrDefault().description = data.description;
-            _db.transaction_log.Where(i => i.transaction_id == data.transactionID).FirstOrDefault().user_id = data.spender;
-            _db.SaveChanges();
-
-
-            return Ok(data.transactionID);
-        }
-
-        [HttpGet]
-        public IHttpActionResult GetTransaction ([FromUri] bool getTransaction, [FromUri] int Id)
-        {
-            var Transaction = (from p in _db.transaction_log
-                             join t in _db.types on p.type_id equals t.typeID
-                             join u in _db.users on p.user_id equals u.userID
-                             where p.transaction_id == Id
-                             select new SingleTransaction
-                             {
-                                 transactionID = p.transaction_id,
-                                 spender = u.userID,
-                                 source = p.source,
-                                 amount = p.amount,
-                                 category = t.typeID,
-                                 date = p.date,
-                                 description = p.description,
-                                 reoccur = p.reoccuring
-                             }).FirstOrDefault();
-
-            var DateModified = Transaction.date.ToString("MM-dd-yyyy");
-            var TransactionModified = new TransactionUpload()
-            {
-                transactionID = Transaction.transactionID,
-                spender = Transaction.spender,
-                source = Transaction.source,
-                amount = Transaction.amount,
-                category = Transaction.category,
-                date = DateModified,
-                description = Transaction.description,
-                reoccur = Transaction.reoccur
-            };
-
-            if (TransactionModified != null)
-            {
-                return Ok(TransactionModified);
-            } else
-            {
-                return InternalServerError();
-            }
-        }
-
-        [HttpDelete]
-        public IHttpActionResult DeleteTransaction ([FromUri] bool deleteTransaction, [FromUri] int Id)
-        {
-            var deleteTransactionList = from t in _db.transaction_log
-                                        where t.transaction_id == Id
-                                        select t;
-            foreach (var transaction in deleteTransactionList)
-            {
-                _db.transaction_log.Remove(transaction);
-            }
-
-            try
-            {
-                _db.SaveChanges();
-                return Ok(Id);
-            }
-            catch
-            {
-                return InternalServerError();
-            }
-        }
-
-        [HttpGet]
-        public IHttpActionResult GetUser([FromUri] bool getUser)
-        {
-            var LoggedInUser = User.Identity.Name;
-
-            if (LoggedInUser != null)
-            {
-                return Ok(LoggedInUser);
-            }
-            else
-            {
-                return InternalServerError();
-            }
-        }
 
         [HttpGet]
         public IHttpActionResult GetBalance([FromUri] bool getBalance, [FromUri] int year)
@@ -368,67 +264,85 @@ namespace Budget.Controllers
             if (Balance >= 0)
             {
                 return Ok(Balance);
-            } else if(Balance <= 0){
+            }
+            else if (Balance <= 0)
+            {
                 return Ok(Balance);
-            } else{
+            }
+            else
+            {
                 return InternalServerError();
             }
         }
+
+        [HttpGet]
+        public IHttpActionResult GetTypes([FromUri] bool getTypes, [FromUri] string filter = "false")
+        {
+            if (filter == "false")
+            {
+                var types = (from t in _db.types
+                             where t.active == 1
+                             orderby t.typeName ascending
+                             select new ATypeData
+                             {
+                                 typeId = t.typeID,
+                                 typeName = t.typeName
+                             }).ToList();
+
+                if (types.FirstOrDefault() != null)
+                {
+                    return Ok(types);
+                }
+                else
+                {
+                    return StatusCode(HttpStatusCode.NoContent);
+                }
+            }
+            else
+            {
+                var types = (from t in _db.types
+                             where t.active == 1 && t.type_mod == filter
+                             orderby t.typeName ascending
+                             select new ATypeData
+                             {
+                                 typeId = t.typeID,
+                                 typeName = t.typeName
+                             }).ToList();
+
+                if (types.FirstOrDefault() != null)
+                {
+                    return Ok(types);
+                }
+                else
+                {
+                    return StatusCode(HttpStatusCode.NoContent);
+                }
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult addTransaction([FromUri] bool addTransaction, [FromBody] TransactionUpload data)
+        {
+            var transaction = new transaction_log();
+            transaction.user_id = data.spender;
+            transaction.source = data.source;
+            transaction.amount = data.amount;
+            transaction.type_id = data.category;
+            transaction.date = DateTime.Parse(data.date);
+            transaction.description = data.description;
+            transaction.reoccuring = data.reoccur;
+
+            _db.transaction_log.Add(transaction);
+            _db.SaveChanges();
+
+            return Created(transaction.source, transaction.transaction_id);
+        }
+
     }
 
-
-    public class TransactionData
+    public class ATypeData
     {
-        public int transactionID { get; set; }
-        public string spender { get; set; }
-        public string source { get; set; }
-        public decimal amount { get; set; }
-        public string category { get; set; }
-        public DateTime date { get; set; }
-        public string description { get; set; }
-        public int? reoccur { get; set; }
-    }
-
-    public class TransactionDataModified
-    {
-        public int transactionID { get; set; }
-        public string spender { get; set; }
-        public string source { get; set; }
-        public decimal amount { get; set; }
-        public string category { get; set; }
-        public string date { get; set; }
-        public string description { get; set; }
-        public int? reoccur { get; set; }
-    }
-
-    public class TransactionUpload
-    {
-        public int transactionID { get; set; }
-        public int spender { get; set; }
-        public string source { get; set; }
-        public decimal amount { get; set; }
-        public int category { get; set; }
-        public string date { get; set; }
-        public string description { get; set; }
-        public int? reoccur { get; set; }
-    }
-
-    public class SingleTransaction
-    {
-        public int transactionID { get; set; }
-        public int spender { get; set; }
-        public string source { get; set; }
-        public decimal amount { get; set; }
-        public int category { get; set; }
-        public DateTime date { get; set; }
-        public string description { get; set; }
-        public int? reoccur { get; set; }
-
-    }
-
-    public class FilterData
-    {
-        public int month { get; set; }
-        public int year { get; set; }
+        public int typeId { get; set; }
+        public string typeName { get; set; }
     }
 }
