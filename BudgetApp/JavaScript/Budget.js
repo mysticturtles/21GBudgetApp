@@ -577,6 +577,11 @@ $(document.body).on('click', '#addTransaction', function (e) {
             data: data,
             success: function (data) {
                 alert("Created Transaction " + data)
+                year = document.getElementById('yearText').innerHTML
+                month = document.getElementById('monthText').innerHTML
+                newDate = new Date(year + month + '01')
+                console.log(newDate);
+                mainDataSection(newDate)
             }
         })
 
@@ -622,6 +627,11 @@ $(document.body).on('click', '#UpdateTransaction', function (e) {
             data: data,
             success: function (data) {
                 alert("Created Transaction " + data)
+                year = document.getElementById('yearText').innerHTML
+                month = document.getElementById('monthText').innerHTML
+                newDate = new Date(year + month + '01')
+                console.log(newDate);
+                mainDataSection(newDate)
             }
         })
 
